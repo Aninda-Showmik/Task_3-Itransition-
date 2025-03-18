@@ -12,18 +12,27 @@ class Dice {
 
 class Parser {
     static parseArgs(args) {
+        // Ensure at least 3 dice configurations are provided
         if (args.length < 3) {
             throw new Error('Invalid input. Provide at least 3 dice configurations.');
         }
+
         return args.map(arg => {
             const values = arg.split(',').map(Number);
+
             if (values.some(isNaN)) {
                 throw new Error(`Invalid dice values: ${arg}. Must be integers.`);
             }
+
+            if (values.length < 4 || values.length > 6) {
+                throw new Error(`Invalid dice: ${arg}. Each die must have between 4 and 6 sides.`);
+            }
+
             return new Dice(values);
         });
     }
 }
+
 
 class FairRandom {
     static generateRandom(range) {
